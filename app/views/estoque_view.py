@@ -21,7 +21,7 @@ class EstoqueView(ViewBase):
         except ValueError as e:
             print(e)
 
-    def listar(self):
+    def buscar(self):
         estoques = self.__controlador.index()
         if len(estoques) == 0:
             print('Nenhum estoque cadastrado.')
@@ -30,7 +30,7 @@ class EstoqueView(ViewBase):
             for estoque in estoques:
                 print(estoque)
 
-    def buscar(self):
+    def visualizar(self):
         id = self.input_int('Informe o ID do estoque: ')
         estoque = self.__controlador.show(id)
         if estoque is None:

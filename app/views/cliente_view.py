@@ -24,8 +24,9 @@ class ClienteView(ViewBase):
         except ValueError as e:
             print(e)
 
-    def listar(self):
-        clientes = self.__controlador.index()
+    def buscar(self):
+        filtro = input('Informe o nome do cliente: ')
+        clientes = self.__controlador.index(filtro)
         if len(clientes) == 0:
             print('Nenhum cliente cadastrado.')
         else:
@@ -33,7 +34,7 @@ class ClienteView(ViewBase):
             for cliente in clientes:
                 print(cliente)
 
-    def buscar(self):
+    def visualizar(self):
         id = self.input_int('Informe o ID do cliente: ')
         cliente = self.__controlador.show(id)
         if cliente is None:

@@ -23,8 +23,9 @@ class FuncionarioView(ViewBase):
         except ValueError as e:
             print(e)
 
-    def listar(self):
-        funcionarios = self.__controlador.index()
+    def buscar(self):
+        filtro = input('Informe o nome do funcionario: ')
+        funcionarios = self.__controlador.index(filtro)
         if len(funcionarios) == 0:
             print('Nenhum funcionario cadastrado.')
         else:
@@ -32,7 +33,7 @@ class FuncionarioView(ViewBase):
             for funcionario in funcionarios:
                 print(funcionario)
 
-    def buscar(self):
+    def visualizar(self):
         id = self.input_int('Informe o ID do funcionario: ')
         funcionario = self.__controlador.show(id)
         if funcionario is None:

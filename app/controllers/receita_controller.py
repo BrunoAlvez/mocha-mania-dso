@@ -1,12 +1,12 @@
-from app.controllers.estoques_controller import EstoquesController
+from app.controllers.estoque_controller import EstoqueController
 from app.models.preparo import Preparo
 from app.models.produto import Produto
 from app.models.receita import Receita
 from app.views.receita_view import ReceitaView
 
 
-class ReceitasController:
-    def __init__(self, controlador_estoques: EstoquesController):
+class ReceitaController:
+    def __init__(self, controlador_estoques: EstoqueController):
         self.tela = ReceitaView(self)
         self.__receitas = []
         self.__preparos = []
@@ -29,9 +29,9 @@ class ReceitasController:
         if opcao == 1:
             self.tela.cadastrar()
         elif opcao == 2:
-            self.tela.listar()
-        elif opcao == 3:
             self.tela.buscar()
+        elif opcao == 3:
+            self.tela.visualizar()
         elif opcao == 4:
             self.tela.editar()
         elif opcao == 5:

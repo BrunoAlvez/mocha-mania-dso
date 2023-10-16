@@ -4,7 +4,7 @@ from app.validations.cliente_validation import ClienteValidation
 from app.views.cliente_view import ClienteView
 
 
-class ClientesController:
+class ClienteController:
     def __init__(self):
         self.tela = ClienteView(self)
         self.__clientes: [Cliente] = []
@@ -17,9 +17,9 @@ class ClientesController:
         if opcao == 1:
             self.tela.cadastrar()
         elif opcao == 2:
-            self.tela.listar()
-        elif opcao == 3:
             self.tela.buscar()
+        elif opcao == 3:
+            self.tela.visualizar()
         elif opcao == 4:
             self.tela.editar()
         elif opcao == 5:
@@ -32,8 +32,13 @@ class ClientesController:
             return None
         return True
 
-    def index(self):
-        return self.clientes
+    def index(self, filtro: str) -> list:
+        if filtro == '':
+            return self.clientes
+        return [
+            cliente for cliente in self.clientes
+            if filtro.lower() in cliente.nome.lower()
+        ]
 
     def store(self, dados: dict) -> Cliente:
         dados = self.__validar_dados(dados)

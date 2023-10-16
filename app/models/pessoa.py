@@ -1,9 +1,7 @@
 from abc import ABC
 
-from app.models.model_base import ModelBase
 
-
-class Pessoa(ModelBase, ABC):
+class Pessoa(ABC):
     def __init__(self, id: int, nome: str, login: str, email: str):
         super().__init__()
 

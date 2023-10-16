@@ -3,7 +3,7 @@ from app.models.funcionario import Funcionario
 from app.views.funcionario_view import FuncionarioView
 
 
-class FuncionariosController:
+class FuncionarioController:
     def __init__(self):
         self.tela = FuncionarioView(self)
         self.__funcionarios: [Funcionario] = []
@@ -16,9 +16,9 @@ class FuncionariosController:
         if opcao == 1:
             self.tela.cadastrar()
         elif opcao == 2:
-            self.tela.listar()
-        elif opcao == 3:
             self.tela.buscar()
+        elif opcao == 3:
+            self.tela.visualizar()
         elif opcao == 4:
             self.tela.editar()
         elif opcao == 5:
@@ -29,8 +29,13 @@ class FuncionariosController:
             return None
         return True
 
-    def index(self):
-        return self.funcionarios
+    def index(self, filtro: str = '') -> list:
+        if filtro == '':
+            return self.funcionarios
+        return [
+            funcionario for funcionario in self.funcionarios
+            if filtro.lower() in funcionario.nome.lower()
+        ]
 
     def store(self, dados: dict):
         dados = self.__validar_dados(dados)

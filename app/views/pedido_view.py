@@ -33,7 +33,7 @@ class PedidoView(ViewBase):
         except ValueError as error:
             print(error)
 
-    def listar(self):
+    def buscar(self):
         pedidos = self.__controlador.index()
         if len(pedidos) == 0:
             print('Nenhum pedido cadastrado.')
@@ -42,7 +42,7 @@ class PedidoView(ViewBase):
             for pedido in pedidos:
                 print(pedido)
 
-    def buscar(self):
+    def visualizar(self):
         id = input('ID: ')
         pedido = self.__controlador.show(id)
         if pedido is None:

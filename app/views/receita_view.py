@@ -31,7 +31,7 @@ class ReceitaView(ViewBase):
         except ValueError as e:
             print(e)
 
-    def listar(self):
+    def buscar(self):
         receitas = self.__controlador.index()
         if len(receitas) == 0:
             print('Nenhuma receita cadastrada.')
@@ -40,7 +40,7 @@ class ReceitaView(ViewBase):
             for receita in receitas:
                 print(receita)
 
-    def buscar(self):
+    def visualizar(self):
         id = self.input_int('Informe o ID da receita: ')
         receita = self.__controlador.show(id)
         if receita is None:

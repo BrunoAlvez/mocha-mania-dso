@@ -1,19 +1,19 @@
-from app.controllers.clientes_controller import ClientesController
-from app.controllers.estoques_controller import EstoquesController
-from app.controllers.funcionarios_controller import FuncionariosController
-from app.controllers.receitas_controller import ReceitasController
+from app.controllers.cliente_controller import ClienteController
+from app.controllers.estoque_controller import EstoqueController
+from app.controllers.funcionario_controller import FuncionarioController
+from app.controllers.receita_controller import ReceitaController
 from app.models.pedido import Pedido
 from app.models.produto import Produto
 from app.views.pedido_view import PedidoView
 
 
-class PedidosController:
+class PedidoController:
     def __init__(
         self,
-        controlador_clientes: ClientesController,
-        controlador_funcionarios: FuncionariosController,
-        controlador_estoques: EstoquesController,
-        controlador_receitas: ReceitasController,
+        controlador_clientes: ClienteController,
+        controlador_funcionarios: FuncionarioController,
+        controlador_estoques: EstoqueController,
+        controlador_receitas: ReceitaController,
     ):
         self.tela = PedidoView(self)
         self.__pedidos = []
@@ -30,9 +30,9 @@ class PedidosController:
         if opcao == 1:
             self.tela.cadastrar()
         elif opcao == 2:
-            self.tela.listar()
-        elif opcao == 3:
             self.tela.buscar()
+        elif opcao == 3:
+            self.tela.visualizar()
         elif opcao == 4:
             return False
         else:
@@ -64,14 +64,14 @@ class PedidosController:
         for fillable in Pedido.fillable():
             if fillable not in dados or dados.get(fillable) == '':
                 raise ValueError(f'{atributos[fillable]} não informado.')
-        produtos_selecionados = self.produtos_selecionados(dados)
+        produtos_selecionados = self.__produtos_selecionados(dados)
         cliente_selecionado = self.__controlador_clientes.show(dados.get('cliente'))
         if cliente_selecionado is None:
             raise ValueError(f'Cliente #{dados.get("cliente")} não cadastrado.')
         responsavel_selecionado = self.__controlador_funcionarios.show(dados.get('responsavel'))
         if responsavel_selecionado is None:
             raise ValueError(f'Responsável #{dados.get("responsavel")} não cadastrado.')
-        self.modifica_estoque(produtos_selecionados)
+        self.__modifica_estoque(produtos_selecionados)
         return [
             self.pedidos[-1].id + 1 if len(self.pedidos) > 0 else 1,
             dados.get('data'),
@@ -80,7 +80,7 @@ class PedidosController:
             produtos_selecionados,
         ]
 
-    def produtos_selecionados(self, dados: dict) -> [Produto]:
+    def __produtos_selecionados(self, dados: dict) -> [Produto]:
         ids_produtos_cadastrados = [produto.id for produto in self.__controlador_receitas.produtos]
         for produto in dados.get('itens'):
             if produto not in ids_produtos_cadastrados:
@@ -92,7 +92,7 @@ class PedidosController:
                     produtos_selecionados.append(produto_cadastrado)
         return produtos_selecionados
 
-    def modifica_estoque(self, produtos_selecionados: [Produto]):
+    def __modifica_estoque(self, produtos_selecionados: [Produto]):
         receitas = self.__controlador_receitas.receitas
         ingredientes = self.__controlador_estoques.ingredientes
         for receita in receitas:

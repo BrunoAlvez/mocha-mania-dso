@@ -3,7 +3,7 @@ from app.models.ingrediente import Ingrediente
 from app.views.estoque_view import EstoqueView
 
 
-class EstoquesController:
+class EstoqueController:
     def __init__(self):
         self.tela = EstoqueView(self)
         self.__estoques = []
@@ -24,9 +24,9 @@ class EstoquesController:
         if opcao == 1:
             self.tela.cadastrar()
         elif opcao == 2:
-            self.tela.listar()
-        elif opcao == 3:
             self.tela.buscar()
+        elif opcao == 3:
+            self.tela.visualizar()
         elif opcao == 4:
             self.tela.editar()
         elif opcao == 5:
